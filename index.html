@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Body as a Home</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #bebec2;
+            font-family: 'Arial', sans-serif;
+            color: #F4EEE0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        #canvas {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .poem-line {
+            position: absolute;
+            font-size: 24px;
+            line-height: 1.6;
+            color: #7b7b7d;
+            text-shadow: 2px 2px 4px rgba(174, 173, 173, 0.4),
+                         0 0 25px rgba(255, 255, 255, 0.3);
+            white-space: nowrap;
+            display: none;
+        }
+
+        .poem-line.show {
+            display: block;
+        }
+
+        .intro-text {
+            position: absolute;
+            font-size: 24px;
+            line-height: 1.6;
+            color: #7a7a7d;
+            text-shadow: 2px 2px 4px rgba(144, 143, 143, 0.4),
+                         0 0 25px rgba(232, 230, 230, 0.4);
+            white-space: nowrap;
+            top: 64%;
+            left: 56%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+
+        .word {
+            position: absolute;
+            font-size: 18px;
+            padding: 10px 15px;
+            background-color: transparent;
+            color: #7b7c7d;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: color 0.3s, transform 0.3s, box-shadow 0.3s;
+            white-space: nowrap;
+            box-shadow: 0 0 8px rgba(61, 61, 61, 0.3);
+        }
+
+        .word:hover {
+            color: #6a6a6e;
+            transform: scale(1.2);
+            box-shadow: 0 0 12px rgba(77, 76, 76, 0.5);
+        }
+
+        @keyframes ombreAnimation {
+            0% {
+                background-color: #a1a1a7;
+            }
+            50% {
+                background-color: #898989;
+            }
+            100% {
+                background-color: #87878b;
+            }
+        }
+
+        #reset-button {
+            position: absolute;
+            top: 85%;
+            left: 34%;
+            transform: translateX(-50%);
+            padding: 9px 17px;
+            font-size: 20px;
+            background-color: #2a2a2d;
+            color: #bfbfc2;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: box-shadow 0.3s;
+            display: none;
+            box-shadow: 0 0 8px rgba(73, 72, 72, 0.5);
+            animation: ombreAnimation 3s infinite;
+        }
+
+        #reset-button:hover {
+            background-color: #929297;
+            box-shadow: 0 0 10px rgba(10, 10, 10, 0.7);
+        }
+
+        .arrow {
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-bottom: 20px solid #818184;
+            transform: rotate(0deg);
+        }
+
+        /* Arrow positions */
+        #arrow1 { top: 33%; left: 30%; transform: rotate(-45deg); }
+        #arrow2 { top: 8%; left: 73%; transform: rotate(45deg); }
+        #arrow3 { top: 88%; left: 10%; transform: rotate(45deg); }
+        #arrow4 { top: 8%; left: 80%; transform: rotate(-45deg); }
+        #arrow5 { top: 12%; left: 10%; transform: rotate(-45deg); }
+        #arrow6 { top: 69%; left: 76%; transform: rotate(45deg); }
+        #arrow7 { top: 55%; left: 35%; transform: rotate(-45deg); }
+        #arrow8 { top: 92%; left: 74%; transform: rotate(-45deg); }
+        #arrow9 { top: 48%; left: 17%; transform: rotate(-45deg); }
+        #arrow10 { top: 78%; left: 56%; transform: rotate(-45deg); }
+        #arrow11 { top: 73%; left: 18%; transform: rotate(45deg); }
+    </style>
+</head>
+<body>
+    <div id="canvas">
+        <div id="poem-wrapper">
+            <!-- Introductory phrase -->
+            <div class="intro-text" id="introText">The_Body_as_a_Home</div>
+            <div class="poem-line" id="line1" style="top: 12%; left: 42%; transform: translate(-50%, -50%);">Your poem will appear here.</div>
+            <div class="poem-line" id="line2" style="top: 28%; left: 47%; transform: translate(-50%, -50%);"></div>
+            <div class="poem-line" id="line3" style="top: 40%; left: 50%; transform: translate(-50%, -50%);"></div>
+            <div class="poem-line" id="line4" style="top: 50%; left: 46%; transform: translate(-50%, -50%);"></div>
+            <div class="poem-line" id="line5" style="top: 63%; left: 58%; transform: translate(-50%, -50%);"></div>
+            <div class="poem-line" id="line6" style="top: 73%; left: 49%; transform: translate(-50%, -50%);"></div>
+        </div>
+        <!-- Words with coordinates for adding to the poem -->
+        <span class="word" style="top: 37%; left: 26%;" onclick="addWord('skin')">Skin</span>
+        <span class="word" style="top: 11%; left: 70%;" onclick="addWord('certainty')">Certainty</span>
+        <span class="word" style="top: 85%; left: 5%;" onclick="addWord('move')">Move</span>
+        <span class="word" style="top: 6%; left: 84%;" onclick="addWord('limits')">Limits</span>
+        <span class="word" style="top: 15%; left: 6%;" onclick="addWord('temporary')">Temporary</span>
+        <span class="word" style="top: 72%; left: 72%;" onclick="addWord('sensations')">Sensations</span>
+        <span class="word" style="top: 60%; left: 30%;" onclick="addWord('experiences')">Experiences</span>
+        <span class="word" style="top: 90%; left: 70%;" onclick="addWord('boundaries')">Boundaries</span>
+        <span class="word" style="top: 45%; left: 13%;" onclick="addWord('grounded')">Grounded</span>
+        <span class="word" style="top: 82%; left: 60%;" onclick="addWord('reshaped')">Reshaped</span>
+        <span class="word" style="top: 22%; left: 66%;" onclick="addWord('network')">Network</span>
+        <span class="word" style="top: 26%; left: 19%;" onclick="addWord('memories')">Memories</span>
+        <span class="word" style="top: 80%; left: 53%;" onclick="addWord('marks')">Marks</span>
+        <span class="word" style="top: 43%; left: 80%;" onclick="addWord('observe')">Observe</span>
+        <span class="word" style="top: 68%; left: 21%;" onclick="addWord('temperature')">Temperature</span>
+        <span class="word" style="top: 9%; left: 60%;" onclick="addWord('stimuli')">Stimuli</span>
+        <span class="word" style="top: 47%; left: 7%;" onclick="addWord('visual')">Visual</span>
+        <span class="word" style="top: 47%; left: 64%;" onclick="addWord('echoes')">Echoes</span>
+        <span class="word" style="top: 82%; left: 86%;" onclick="addWord('movements')">Movements</span>
+        <span class="word" style="top: 75%; left: 92%;" onclick="addWord('edges')">Edges</span>
+        <span class="word" style="top: 9%; left: 15%;" onclick="addWord('core')">Core</span>
+        <span class="word" style="top: 70%; left: 15%;" onclick="addWord('map')">Map</span>
+        <button id="reset-button" onclick="resetPoem()">Body complete! Rebuild?</button>
+
+        <!-- Arrows pointing to words -->
+        <div id="arrow1" class="arrow"></div>
+        <div id="arrow2" class="arrow"></div>
+        <div id="arrow3" class="arrow"></div>
+        <div id="arrow4" class="arrow"></div>
+        <div id="arrow5" class="arrow"></div>
+        <div id="arrow6" class="arrow"></div>
+        <div id="arrow7" class="arrow"></div>
+        <div id="arrow8" class="arrow"></div>
+        <div id="arrow9" class="arrow"></div>
+        <div id="arrow10" class="arrow"></div>
+        <div id="arrow11" class="arrow"></div>
+    </div>
+
+    <script>
+        const poemLines = [];
+        const lineElements = [
+            document.getElementById('line1'),
+            document.getElementById('line2'),
+            document.getElementById('line3'),
+            document.getElementById('line4'),
+            document.getElementById('line5'),
+            document.getElementById('line6')
+        ];
+        const resetButton = document.getElementById('reset-button');
+        const introText = document.getElementById('introText'); // Get the intro text element
+
+        function addWord(word) {
+            const lines = {
+                'skin': 'Get comfortable in your own skin.',
+                'certainty': 'There’s a certainty in being in your own body.',
+                'move': 'Stretch and move, rest and pause.',
+                'limits': 'This body has limits and strengths.',
+                'temporary': 'My earthly form is a temporary spot.',
+                'sensations': 'Physical sensations keep me in real time.',
+                'experiences': 'The starting point for all experiences.',
+                'boundaries': 'Fluid boundaries are part of the structure.',
+                'grounded': 'A solid place to keep you grounded.',
+                'reshaped': 'It can be reshaped over time.',
+                'network': 'Each point links together as a network.',
+                'memories': 'The skin holds memories.',
+                'marks': 'It carries the textures and marks.',
+                'observe': 'Observe it in detail.',
+                'temperature': 'It responds to temperature.',
+                'stimuli': 'The body absorbs external stimuli.',
+                'visual': 'We are surrounded by visual cues.',
+                'echoes': 'We can bring back specific echoes.',
+                'movements': 'Movements align with the space around.',
+                'edges': 'Space defines the body’s edges.',
+                'core': 'Form finds its own core.',
+                'map': 'Map it in contours.'
+            };
+
+            // Hide the intro text when a word is clicked
+            if (poemLines.length === 0) {
+                introText.style.display = 'none';
+            }
+
+            if (poemLines.length < 6) {
+                poemLines.push(lines[word]);
+                lineElements[poemLines.length - 1].innerText = lines[word];
+                lineElements[poemLines.length - 1].classList.add('show');
+            }
+
+            if (poemLines.length === 6) {
+                resetButton.style.display = 'block';
+            }
+        }
+
+        function resetPoem() {
+            poemLines.length = 0; // Clear the array
+            lineElements.forEach(line => {
+                line.innerText = '';
+                line.classList.remove('show');
+            });
+            resetButton.style.display = 'none';
+            introText.style.display = 'block'; // Show the intro text again when reset
+        }
+    </script>
+</body>
+</html>
